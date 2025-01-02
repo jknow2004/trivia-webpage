@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.4">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="en"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;Random Trivia&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>body {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-family: Arial, sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 100vh;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #f4f4f9;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#container {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: white;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 30px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>max-width: 600px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 90%;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>button {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 10px 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 16px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: background-color 0.3s;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>button:hover {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #e0e0e0;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h1&gt;Random Trivia&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="question" aria-live="polite"&gt;Loading question...&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button type="button" onclick="fetchTrivia()"&gt;New Question&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>async function fetchTrivia() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const response = await fetch('https://opentdb.com/api.php?amount=1&amp;type=multiple');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const data = await response.json();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const trivia = data.results[0];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>const question = decodeHtml(trivia.question);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const answers = [...trivia.incorrect_answers, trivia.correct_answer].sort(() =&gt; Math.random() - 0.5);</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>let answerList = answers.map(answer =&gt; `&lt;li&gt;${decodeHtml(answer)}&lt;/li&gt;`).join('');</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('question').innerHTML = `</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p&gt;&lt;strong&gt;${question}&lt;/strong&gt;&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;ul&gt;${answerList}&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>`;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} catch (error) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('question').innerHTML = 'Failed to load question. Try again!';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function decodeHtml(html) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>let txt = document.createElement('textarea');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>txt.innerHTML = html;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>return txt.value;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>fetchTrivia();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
